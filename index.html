@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>بطولة فيفا الرسمية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: radial-gradient(circle at top, #1b2735, #090a0f);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    header h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      font-weight: 900;
+    }
+    header p {
+      opacity: 0.85;
+      font-size: 18px;
+    }
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      animation: fadeUp 1s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    input, select, textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 15px;
+      outline: none;
+    }
+    textarea { resize: none; }
+    .rules {
+      margin-top: 15px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    .rules input { width: auto; margin-left: 6px; }
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      font-size: 18px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #00e676, #1de9b6);
+      color: #000;
+      cursor: pointer;
+      font-weight: 900;
+      transition: transform .2s, box-shadow .2s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(0,230,118,0.6);
+    }
+    .success {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #1de9b6;
+    }
+    footer {
+      text-align: center;
+      margin: 30px 0;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    /* مربع القوانين */
+    .rules-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .rules-box:hover {
+      background: rgba(0,0,0,0.5);
+    }
+
+    /* نافذة القوانين */
+    #rulesModal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.7);
+    }
+    #rulesModalContent {
+      background-color: #1b2735;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 500px;
+      color: #fff;
+    }
+    #rulesModalContent h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+    #closeRules {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 20px;
+      background: #ff5252;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🏆 بطولة فيفا</h1>
+  <p>سجّل الآن واثبت أنك الأفضل</p>
+</header>
+
+<div class="container">
+  <form id="registerForm">
+    <label>🎮 الاسم داخل اللعبة</label>
+    <input type="text" name="ign" required />
+
+    <label>👤 الاسم الحقيقي</label>
+    <input type="text" name="realname" required />
+
+    <label>🎂 العمر</label>
+    <input type="number" name="age" required />
+
+    <label>🕹️ منصة اللعب</label>
+    <select name="platform" required>
+      <option value="">اختر المنصة</option>
+      <option>PS4</option>
+      <option>PS5</option>
+      <option>Xbox</option>
+      <option>PC</option>
+    </select>
+
+    <label>📞 وسيلة التواصل (Discord ID)</label>
+    <input type="text" name="contact" placeholder="مثال: 123456789012345678" required />
+
+    <label>📝 ملاحظات (اختياري)</label>
+    <textarea name="notes" rows="3"></textarea>
+
+    <!-- مربع القوانين -->
+    <div class="rules-box" id="showRules">📜 قراءة قوانين البطولة</div>
+
+    <!-- الموافقة على القوانين -->
+    <div class="rules">
+      <input type="checkbox" required /> أوافق على قوانين البطولة
+    </div>
+
+    <!-- الموافقة على الشروط -->
+    <div class="rules">
+      <input type="checkbox" required /> أوافق على الشروط والأحكام
+    </div>
+
+    <button type="submit">🚀 تسجيل الآن</button>
+  </form>
+
+  <div class="success">✅ تم إرسال طلبك! بانتظار مراجعة الإدارة</div>
+</div>
+
+<!-- نافذة القوانين -->
+<div id="rulesModal">
+  <div id="rulesModalContent">
+    <h2>قوانين البطولة</h2>
+    <ul>
+      <li>⚽ الالتزام بمواعيد المباريات.</li>
+      <li>❌ يمنع استخدام أي غش أو هكر.</li>
+      <li>🎮 احترام جميع اللاعبين.</li>
+      <li>🏆 الفائز يحصل على الجوائز الرسمية فقط.</li>
+      <li>📌 أي مخالفة تؤدي إلى الاستبعاد من البطولة.</li>
+    </ul>
+    <button id="closeRules">إغلاق</button>
+  </div>
+</div>
+
+<footer>
+  © بطولة فيفا – تنظيم احترافي
+</footer>
+
+<script>
+  const form = document.getElementById('registerForm');
+  const success = document.querySelector('.success');
+  const webhookURL = "https://canary.discord.com/api/webhooks/1449802814359605443/YL4low4NZ1nvRfSTJNXukqfEXHD56NXmc2dYBnQo1-jwuhNzL29AbP4-JSSO5tNuxAtC";
+
+  // إرسال البيانات للويب هوك
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = new FormData(form);
+    const v = [...data.values()];
+
+    const payload = {
+      embeds: [{
+        title: "📝 طلب تسجيل جديد – بطولة فيفا",
+        color: 5763719,
+        fields: [
+          { name: " الاسم داخل اللعبة", value: v[0], inline: true },
+          { name: " الاسم الحقيقي", value: v[1], inline: true },
+          { name: " العمر", value: v[2], inline: true },
+          { name: " المنصة", value: v[3], inline: true },
+          { name: "Discord ID", value: v[4], inline: false },
+          { name: "📝 ملاحظات", value: v[5] || "لا يوجد", inline: false }
+        ],
+        footer: { text: "بانتظار قبول أو رفض الإدارة" }
+      }]
+    };
+
+    await fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    success.style.display = "block";
+    form.reset();
+  });
+
+  // فتح وغلق نافذة القوانين
+  const rulesModal = document.getElementById('rulesModal');
+  document.getElementById('showRules').addEventListener('click', () => {
+    rulesModal.style.display = 'block';
+  });
+  document.getElementById('closeRules').addEventListener('click', () => {
+    rulesModal.style.display = 'none';
+  });
+  window.addEventListener('click', (e) => {
+    if(e.target == rulesModal) rulesModal.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
